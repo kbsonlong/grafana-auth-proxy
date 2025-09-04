@@ -27,12 +27,12 @@ const (
 	PermissionRead   Permission = "read"
 	PermissionWrite  Permission = "write"
 	PermissionDelete Permission = "delete"
-	PermissionExport Permission = "export"
+	PermissionExport Permission = "explore"
 	PermissionAdmin  Permission = "admin"
 )
 
 const (
-	jwtSecret = "your-secret-key-change-in-production"
+	jwtSecret   = "your-secret-key-change-in-production"
 	tokenExpiry = 24 * time.Hour
 )
 
@@ -126,7 +126,7 @@ var users = map[string]User{
 func main() {
 	// 创建路由器
 	r := mux.NewRouter()
-	
+
 	// 设置路由
 	r.HandleFunc("/api/login", loginHandler).Methods("POST")
 	r.HandleFunc("/api/auth", authHandler).Methods("GET")
@@ -143,7 +143,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{
-		"status": "healthy",
+		"status":  "healthy",
 		"service": "auth-service",
 	})
 }
@@ -227,19 +227,19 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 
 	if claims, ok := token.Claims.(*Claims); ok {
 		// 验证成功，设置用户信息到响应头
-	w.Header().Set("X-WEBAUTH-USER", claims.Username)
-	w.Header().Set("X-WEBAUTH-EMAIL", claims.Email)
-	w.Header().Set("X-WEBAUTH-NAME", claims.Name)
-	w.Header().Set("X-WEBAUTH-ROLE", string(claims.Role))
-	
-	// 将权限列表转换为逗号分隔的字符串
-	permissions := make([]string, len(claims.Permissions))
-	for i, perm := range claims.Permissions {
-		permissions[i] = string(perm)
-	}
-	w.Header().Set("X-WEBAUTH-PERMISSIONS", strings.Join(permissions, ","))
-	
-	w.WriteHeader(http.StatusOK)
+		w.Header().Set("X-WEBAUTH-USER", claims.Username)
+		w.Header().Set("X-WEBAUTH-EMAIL", claims.Email)
+		w.Header().Set("X-WEBAUTH-NAME", claims.Name)
+		w.Header().Set("X-WEBAUTH-ROLE", string(claims.Role))
+
+		// 将权限列表转换为逗号分隔的字符串
+		permissions := make([]string, len(claims.Permissions))
+		for i, perm := range claims.Permissions {
+			permissions[i] = string(perm)
+		}
+		w.Header().Set("X-WEBAUTH-PERMISSIONS", strings.Join(permissions, ","))
+
+		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 	}
