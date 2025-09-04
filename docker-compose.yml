@@ -37,7 +37,7 @@ services:
 
   # Grafana服务
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:12.0.2
     container_name: grafana-server
     environment:
       - GF_SECURITY_ADMIN_USER=admin

@@ -24,11 +24,11 @@ const (
 type Permission string
 
 const (
-	PermissionRead   Permission = "read"
-	PermissionWrite  Permission = "write"
-	PermissionDelete Permission = "delete"
-	PermissionExport Permission = "explore"
-	PermissionAdmin  Permission = "admin"
+	PermissionRead    Permission = "read"
+	PermissionWrite   Permission = "write"
+	PermissionDelete  Permission = "delete"
+	PermissionExplore Permission = "explore"
+	PermissionAdmin   Permission = "admin"
 )
 
 const (
@@ -78,17 +78,17 @@ var rolePermissions = map[Role][]Permission{
 		PermissionRead,
 		PermissionWrite,
 		PermissionDelete,
-		PermissionExport,
+		PermissionExplore,
 		PermissionAdmin,
 	},
 	RoleEditor: {
 		PermissionRead,
 		PermissionWrite,
-		PermissionExport,
+		PermissionExplore,
 	},
 	RoleViewer: {
 		PermissionRead,
-		PermissionExport, // viewer角色可以导出
+		PermissionExplore,
 	},
 }
 
